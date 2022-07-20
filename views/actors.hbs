@@ -15,11 +15,50 @@
             <td>{{this.actor_id}}</td>
             <td>{{this.first_name}}</td>
             <td>{{this.last_name}}</td>
+            <td>
+                <a class="btn btn-primary btn-sm" href="/actors/{{this.actor_id}}/update">Update</a>
+
+                <a href="#" data-actor-id="{{this.actor_id}}" data-actor-name="{{this.first_name}} {{this.last_name}}" class="delete-btn btn btn-danger">Delete</a>
+            </td>
         </tr>
         {{/each}}
     </tbody>
 
 </table>
+{{/block}}
+
+{{#block "js"}}
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    //select all delete buttons with class .deletebtn
+    let deleteBtns = document.querySelectorAll(".delete-btn");
+    for (let b of deleteBtns){
+        b.addEventListener("click", async function(evt){
+            evt.preventDefault(); //tell browser to prvent the default behavior of the element ie href = "#"
+            console.log(evt.target.dataset);
+            //Swal is the SweetAlert2 object
+            const result = await Swal.fire({
+                "title": `Confirm Delete ${evt.target.dataset.actorName}`,
+                "icon" : "error",
+                "confirmButtonText": "Yes",
+                "cancelButtonText": "No",
+                "showCloseButton": true,
+                "showCancelButton": true
+            })
+            console.log(result)
+            if(result.isConfirmed){
+                //process the delete
+                //need this pseudo form to redirect the window to go to the post route
+                const form = document.createElement("form");
+                form.method = "POST";
+                form.action = "/actors/" + evt.target.dataset.actorId + "/delete";
+                //need to append child into body
+                document.querySelector("body").appendChild(form);
+                form.submit();
+            }
+        })
+    }
+</script>
 {{/block}}
 
 {{/extends}}

@@ -28,10 +28,10 @@ chmod +x init.sh
 # password
 https://www.digitalocean.com/community/tutorials/how-to-create-a-new-user-and-grant-permissions-in-mysql
 <!-- normally dont use root user as root user has rights to delete all dbs.
-create a new user for each project  -->
+create a new user for each project eg. -->
 CREATE USER 'sammy'@'localhost' IDENTIFIED BY 'password';
 
-<!-- granting permissions -->
+<!-- granting permissions eg. -->
 GRANT ALL PRIVILEGES ON *.* TO 'sammy'@'localhost' WITH GRANT OPTION;
 
 <!-- to refresh for the privileges to take place immediately, if cannot connect to database -->
